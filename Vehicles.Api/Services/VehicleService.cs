@@ -7,9 +7,11 @@ namespace Vehicles.Api.Services;
 public class VehicleService : IVehicleService
 {
     private readonly IVehiclesRepository _vehiclesRepository;
-    public VehicleService()
+    private readonly ILogger<VehicleService> _logger;
+    public VehicleService(IVehiclesRepository vehiclesRepository, ILogger<VehicleService> logger)
     {
-        _vehiclesRepository = new VehiclesRepository();
+        _vehiclesRepository = vehiclesRepository;
+        _logger = logger;
     }
     public List<Vehicle> GetAllVehicles()
     {
