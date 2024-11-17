@@ -1,6 +1,5 @@
 ﻿using Vehicles.Api.Interfaces;
 using Vehicles.Api.Models;
-using Vehicles.Api.Repositories;
 
 namespace Vehicles.Api.Services;
 
