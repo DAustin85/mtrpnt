@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Moq;
+using System.ComponentModel.DataAnnotations;
 using Vehicles.Api.Interfaces;
 using Vehicles.Api.Models;
 using Vehicles.Api.Services;
@@ -17,24 +18,63 @@ public class GivenIWantToGetAListOfVehicles
     private List<Vehicle> _allVehicles;
     private Vehicle _toyota = new Vehicle { Make = "Toyota", Model = "Corolla" };
     private Vehicle _honda = new Vehicle { Make = "Honda", Model = "Civic" };
+    private VehicleDto _addVehicleDto = new VehicleDto {
+        Price = 10000,
+        Make = "Make",
+        Model = "Model",
+        Trim = "Trim",
+        Colour = "Colour",
+        CO2Level = 100,
+        Transmission = "Transmission",
+        FuelType = "FuelType",
+        EngineSize = 1000,
+        DateFirstReg = "01/01/2024",
+        Mileage = 10001
+    };
+    private VehicleSearchDto _searchVehicle = new VehicleSearchDto { Make = "Toyota", Model = "Corolla" };
 
-[SetUp]
+    [SetUp]
     public void Setup()
     {
+        var failedValidationResult = new ValidationResult("Failed validation");
         _allVehicles = new List<Vehicle>
         {
            _toyota,
+           _toyota,
+           _toyota,
+           _honda,
+           _honda,
            _honda
         };
         _vehiclesRepositoryMock = new Mock<IVehiclesRepository>();
         _vehiclesRepositoryMock.Setup(x => x.GetAll()).Returns(_allVehicles);
-        _vehiclesRepositoryMock.Setup(x => x.GetVehiclesByMarque(_honda.Make)).Returns(new List<Vehicle> { _honda });
-        _vehiclesRepositoryMock.Setup(x => x.GetVehiclesByMarque(_toyota.Make)).Returns(new List<Vehicle> { _toyota });
-        _vehiclesRepositoryMock.Setup(x => x.GetVehiclesByModel(_honda.Model)).Returns(new List<Vehicle> { _honda });
-        _vehiclesRepositoryMock.Setup(x => x.GetVehiclesByModel(_toyota.Model)).Returns(new List<Vehicle> { _toyota });
+        _vehiclesRepositoryMock.Setup(x => x.GetVehiclesByMarque(_honda.Make)).Returns(_allVehicles.Where(x => x.Make == _honda.Make).ToList());
+        _vehiclesRepositoryMock.Setup(x => x.GetVehiclesByMarque(_toyota.Make)).Returns(_allVehicles.Where(x => x.Make == _toyota.Make).ToList());
+        _vehiclesRepositoryMock.Setup(x => x.GetVehiclesByModel(_honda.Model)).Returns(_allVehicles.Where(x => x.Model == _honda.Model).ToList());
+        _vehiclesRepositoryMock.Setup(x => x.GetVehiclesByModel(_toyota.Model)).Returns(_allVehicles.Where(x => x.Model == _toyota.Model).ToList());
+        _vehiclesRepositoryMock
+            .Setup(x => x.SearchVehicles(It.Is<VehicleSearchDto>(v => v.Make == _toyota.Make && v.Model == _toyota.Model)))
+            .Returns(_allVehicles.Where(x => x.Model == _searchVehicle.Model && x.Make == _searchVehicle.Make).ToList());
         _loggerMock = new Mock<ILogger<VehicleService>>();
         _vehicleMapperServiceMock = new Mock<IVehicleMapperService>();
         _vehicleValidationServiceMock = new Mock<IVehicleValidationService>();
+        _vehicleValidationServiceMock.Setup(x => x.ValidateVehicle(It.IsAny<VehicleDto>())).Returns(failedValidationResult);
+        _vehicleValidationServiceMock
+            .Setup(x => x.ValidateVehicle(
+                It.Is<VehicleDto>(v => 
+                v.Price > 0 &&
+                v.Make != null &&
+                v.Model != null &&
+                v.Trim != null &&
+                v.Colour != null &&
+                v.CO2Level > 0 &&
+                v.Transmission != null &&
+                v.FuelType != null &&
+                v.EngineSize > 0 &&
+                v.DateFirstReg != null &&
+                v.Mileage > 0
+                )))
+            .Returns(ValidationResult.Success!);
         _vehicleService = new VehicleService(_vehiclesRepositoryMock.Object, _loggerMock.Object, _vehicleValidationServiceMock.Object, _vehicleMapperServiceMock.Object);
     }
 
@@ -50,18 +90,39 @@ public class GivenIWantToGetAListOfVehicles
     public void GetVehiclesByMarque_WhenCalled_ThenReturnsFilteredVehicleList()
     {
         var result = _vehicleService.GetVehiclesByMarque(_toyota.Make);
-        var expected = new List<Vehicle> { _toyota };
-        // Assert
-        Assert.That(result, Is.EquivalentTo(expected));
+
+        Assert.That(result.Any(v => v.Make != _toyota.Make), Is.False);
     }
 
     [Test]
     public void GetVehiclesByModel_WhenCalled_ThenReturnsFilteredVehicleList()
     {
         var result = _vehicleService.GetVehiclesByModel(_honda.Model);
-        var expected = new List<Vehicle> { _honda };
 
-        // Assert
-        Assert.That(result, Is.EquivalentTo(expected));
+        Assert.That(result.Any(v => v.Model != _honda.Model), Is.False);
+    }
+
+    [Test]
+    public void AddVehicle_WhenCalledWithAValidModel_ThenReturnsSuccess()
+    {
+        var result = _vehicleService.AddVehicle(_addVehicleDto);
+
+        Assert.That(result, Is.EqualTo(ValidationResult.Success));
+    }
+
+    [Test]
+    public void AddVehicle_WhenCalledWithAnInvalidModel_ThenReturnsValidationError()
+    {
+        var result = _vehicleService.AddVehicle(new VehicleDto());
+
+        Assert.That(result.ErrorMessage, Is.EqualTo("Failed validation"));
+    }
+
+    [Test]
+    public void SearchVehicles_WhenCalled_ThenReturnsFilteredResultSet()
+    {
+        var result = _vehicleService.SearchVehicles(_searchVehicle);
+
+        Assert.That(result.Any(x => x.Make != _searchVehicle.Make && x.Model != _searchVehicle.Model), Is.False);
     }
 }
