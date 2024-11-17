@@ -21,7 +21,7 @@ public class Vehicle
     [JsonPropertyName("engine_size")]
     public int EngineSize { get; set; }
     [JsonPropertyName("date_first_reg")]
-    public DateTime DateFirstReg { get; set; }
+    public string DateFirstReg { get; set; }
     [JsonPropertyName("mileage")]
     public int Mileage { get; set; }
 }
