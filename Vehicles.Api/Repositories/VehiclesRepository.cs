@@ -45,14 +45,10 @@ public class VehiclesRepository : IVehiclesRepository
             foreach (var searchProperty in searchProperties)
             {
                 var propVal = searchProperty.GetValue(searchModel);
-                var vehiclePropVal = vehicleProperties.Single(vehicleProperty => 
+                var vehiclePropVal = vehicleProperties.Single(vehicleProperty =>
                     vehicleProperty.Name.Equals(searchProperty.Name)).GetValue(vehicle);
 
-                if (propVal is string _propValString && _propValString.Equals(vehiclePropVal!.ToString(), StringComparison.OrdinalIgnoreCase))
-                {
-                    continue;
-                }
-                else if (propVal!.Equals(vehiclePropVal))
+                if (PropertyValueEqualsSearchValue(propVal, vehiclePropVal))
                 {
                     continue;
                 }
@@ -62,10 +58,11 @@ public class VehiclesRepository : IVehiclesRepository
             }
         }
 
+        return results;
+    }
 
-
-        
-
-        return results.Distinct().ToList();
+    private static bool PropertyValueEqualsSearchValue(object? propVal, object? vehiclePropVal)
+    {
+        return (propVal is string _propValString && _propValString.Equals(vehiclePropVal!.ToString(), StringComparison.OrdinalIgnoreCase)) || propVal!.Equals(vehiclePropVal);
     }
 }
