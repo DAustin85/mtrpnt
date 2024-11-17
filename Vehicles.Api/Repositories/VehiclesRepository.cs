@@ -15,6 +15,12 @@ namespace Vehicles.Api.Repositories
         public string Trim { get; set; }
         [JsonPropertyName("colour")]
         public string Colour { get; set; }
+        public int CO2Level { get; set; }
+        public string Transmission { get; set; }
+        public string FuelType { get; set; }
+        public int EngineSize { get; set; }
+        public DateTime DateFirstReg { get; set; }
+        public int Mileage { get; set; }
     }
 
     public class VehiclesRepository
