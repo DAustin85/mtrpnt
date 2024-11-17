@@ -1,11 +1,10 @@
 ﻿using System.Text.Json;
-using System;
-using System.Text.Json.Serialization;
 using Vehicles.Api.Models;
+using Vehicles.Api.Interfaces;
 
 namespace Vehicles.Api.Repositories;
 
-public class VehiclesRepository
+public class VehiclesRepository : IVehiclesRepository
 {
     List<Vehicle> _vehicles;
     public VehiclesRepository()

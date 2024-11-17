@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Vehicles.Api.Interfaces;
+using Vehicles.Api.Models;
 
 namespace Vehicles.Api.Controllers;
 
@@ -7,9 +9,18 @@ namespace Vehicles.Api.Controllers;
 public class VehiclesController : ControllerBase
 {
     private readonly ILogger<VehiclesController> _logger;
+    private readonly IVehicleService _vehicleService;
 
-    public VehiclesController(ILogger<VehiclesController> logger)
+    public VehiclesController(IVehicleService vehicleService, ILogger<VehiclesController> logger)
     {
         _logger = logger;
+        _vehicleService = vehicleService;
+    }
+
+    [HttpGet]
+    [Route("All")]
+    public List<Vehicle> GetAllCars()
+    {
+        return _vehicleService.GetAllCars();
     }
 }
