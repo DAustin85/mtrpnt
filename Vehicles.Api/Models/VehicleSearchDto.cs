@@ -5,7 +5,7 @@ namespace Vehicles.Api.Models;
 public class VehicleSearchDto
 {
     [JsonPropertyName("price")]
-    public int Price { get; set; }
+    public int? Price { get; set; }
     [JsonPropertyName("make")]
     public string? Make { get; set; }
     [JsonPropertyName("model")]
