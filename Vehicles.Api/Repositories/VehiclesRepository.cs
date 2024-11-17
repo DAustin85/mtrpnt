@@ -68,6 +68,6 @@ public class VehiclesRepository : IVehiclesRepository
 
     private static bool PropertyValueEqualsSearchValue(object? propVal, object? vehiclePropVal)
     {
-        return (propVal is string _propValString && _propValString.Equals(vehiclePropVal!.ToString(), StringComparison.OrdinalIgnoreCase)) || !propVal!.Equals(vehiclePropVal);
+        return (propVal is string _propValString && _propValString.Equals(vehiclePropVal!.ToString(), StringComparison.OrdinalIgnoreCase)) || propVal!.Equals(vehiclePropVal);
     }
 }
