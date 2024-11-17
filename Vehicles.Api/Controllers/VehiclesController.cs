@@ -19,9 +19,9 @@ public class VehiclesController : ControllerBase
 
     [HttpGet]
     [Route("All")]
-    public List<Vehicle> GetAllCars()
+    public List<Vehicle> GetAllVehicles()
     {
-        return _vehicleService.GetAllCars();
+        return _vehicleService.GetAllVehicles();
     }
 
     [HttpGet]

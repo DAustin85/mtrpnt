@@ -11,7 +11,7 @@ public class VehicleService : IVehicleService
     {
         _vehiclesRepository = new VehiclesRepository();
     }
-    public List<Vehicle> GetAllCars()
+    public List<Vehicle> GetAllVehicles()
     {
         return _vehiclesRepository.GetAll();
     }
