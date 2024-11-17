@@ -15,4 +15,9 @@ public class VehicleService : IVehicleService
     {
         return _vehiclesRepository.GetAll();
     }
+
+    public List<Vehicle> GetVehiclesByMarque(string marque)
+    {
+        return _vehiclesRepository.GetVehiclesByMarque(marque);
+    }
 }

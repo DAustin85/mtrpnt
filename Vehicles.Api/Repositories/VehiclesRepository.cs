@@ -20,4 +20,10 @@ public class VehiclesRepository : IVehiclesRepository
     {
         return _vehicles;
     }
+
+    public List<Vehicle> GetVehiclesByMarque(string marque)
+    {
+        return _vehicles.Where(vehicle => 
+            marque.Equals(vehicle.Make, StringComparison.OrdinalIgnoreCase)).ToList();
+    }
 }

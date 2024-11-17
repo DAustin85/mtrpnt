@@ -5,4 +5,5 @@ namespace Vehicles.Api.Interfaces;
 public interface IVehicleService
 {
     public List<Vehicle> GetAllCars();
+    public List<Vehicle> GetVehiclesByMarque(string marque);
 }

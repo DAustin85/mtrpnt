@@ -23,4 +23,11 @@ public class VehiclesController : ControllerBase
     {
         return _vehicleService.GetAllCars();
     }
+
+    [HttpGet]
+    [Route("Marque/{marque}")]
+    public List<Vehicle> GetAllCars(string marque)
+    {
+        return _vehicleService.GetVehiclesByMarque(marque);
+    }
 }
