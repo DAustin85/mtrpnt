@@ -1,7 +1,13 @@
+using Vehicles.Api.Interfaces;
+using Vehicles.Api.Repositories;
+using Vehicles.Api.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<IVehiclesRepository, VehiclesRepository>();
+builder.Services.AddScoped<IVehicleService, VehicleService>();
 
 var app = builder.Build();
 app.UseSwagger();
