@@ -32,4 +32,40 @@ public class VehiclesRepository : IVehiclesRepository
         return _vehicles.Where(vehicle =>
             model.Equals(vehicle.Model, StringComparison.OrdinalIgnoreCase)).ToList();
     }
+
+    public List<Vehicle> SearchVehicles(VehicleSearchDto searchModel)
+    {
+        var results = new List<Vehicle>();
+        var searchProperties = typeof(VehicleSearchDto).GetProperties().Where(property => property.GetValue(searchModel) is not null);
+        var vehicleProperties = typeof(Vehicle).GetProperties();
+
+        foreach (var vehicle in _vehicles)
+        {
+            results.Add(vehicle);
+            foreach (var searchProperty in searchProperties)
+            {
+                var propVal = searchProperty.GetValue(searchModel);
+                var vehiclePropVal = vehicleProperties.Single(vehicleProperty => 
+                    vehicleProperty.Name.Equals(searchProperty.Name)).GetValue(vehicle);
+
+                if (propVal is string _propValString && _propValString.Equals(vehiclePropVal!.ToString(), StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+                else if (propVal!.Equals(vehiclePropVal))
+                {
+                    continue;
+                }
+
+                results.Remove(vehicle);
+                break;
+            }
+        }
+
+
+
+        
+
+        return results.Distinct().ToList();
+    }
 }

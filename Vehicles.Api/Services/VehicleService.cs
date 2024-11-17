@@ -34,4 +34,9 @@ public class VehicleService : IVehicleService
         }
         return _vehiclesRepository.GetVehiclesByModel(model);
     }
+
+    public List<Vehicle> SearchVehicles(VehicleSearchDto vehicle)
+    {
+        return _vehiclesRepository.SearchVehicles(vehicle);
+    }
 }

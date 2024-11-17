@@ -37,4 +37,11 @@ public class VehiclesController : ControllerBase
     {
         return _vehicleService.GetVehiclesByModel(model);
     }
+
+    [HttpGet]
+    [Route("Search")]
+    public List<Vehicle> GetVehiclesByModel([FromBody] VehicleSearchDto searchVehicle)
+    {
+        return _vehicleService.SearchVehicles(searchVehicle);
+    }
 }
