@@ -12,6 +12,8 @@ public class GivenIWantToGetAListOfVehicles
     private VehicleService _vehicleService;
     private Mock<IVehiclesRepository> _vehiclesRepositoryMock;
     private Mock<ILogger<VehicleService>> _loggerMock;
+    private Mock<IVehicleMapperService> _vehicleMapperServiceMock;
+    private Mock<IVehicleValidationService> _vehicleValidationServiceMock;
     private List<Vehicle> _allVehicles;
     private Vehicle _toyota = new Vehicle { Make = "Toyota", Model = "Corolla" };
     private Vehicle _honda = new Vehicle { Make = "Honda", Model = "Civic" };
@@ -31,7 +33,9 @@ public class GivenIWantToGetAListOfVehicles
         _vehiclesRepositoryMock.Setup(x => x.GetVehiclesByModel(_honda.Model)).Returns(new List<Vehicle> { _honda });
         _vehiclesRepositoryMock.Setup(x => x.GetVehiclesByModel(_toyota.Model)).Returns(new List<Vehicle> { _toyota });
         _loggerMock = new Mock<ILogger<VehicleService>>();
-        _vehicleService = new VehicleService(_vehiclesRepositoryMock.Object, _loggerMock.Object);
+        _vehicleMapperServiceMock = new Mock<IVehicleMapperService>();
+        _vehicleValidationServiceMock = new Mock<IVehicleValidationService>();
+        _vehicleService = new VehicleService(_vehiclesRepositoryMock.Object, _loggerMock.Object, _vehicleValidationServiceMock.Object, _vehicleMapperServiceMock.Object);
     }
 
     [Test]

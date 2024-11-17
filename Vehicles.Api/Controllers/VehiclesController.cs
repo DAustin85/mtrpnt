@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using Vehicles.Api.Interfaces;
 using Vehicles.Api.Models;
 
@@ -43,5 +44,12 @@ public class VehiclesController : ControllerBase
     public List<Vehicle> GetVehiclesByModel([FromBody] VehicleSearchDto searchVehicle)
     {
         return _vehicleService.SearchVehicles(searchVehicle);
+    }
+
+    [HttpPut]
+    [Route("AddVehicle")]
+    public ValidationResult AddVehicle([FromBody] VehicleDto vehicleRequest)
+    {
+        return _vehicleService.AddVehicle(vehicleRequest);
     }
 }

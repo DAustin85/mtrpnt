@@ -61,8 +61,13 @@ public class VehiclesRepository : IVehiclesRepository
         return results;
     }
 
+    public void AddVehicle(Vehicle vehicle)
+    {
+        _vehicles.Add(vehicle);
+    }
+
     private static bool PropertyValueEqualsSearchValue(object? propVal, object? vehiclePropVal)
     {
-        return (propVal is string _propValString && _propValString.Equals(vehiclePropVal!.ToString(), StringComparison.OrdinalIgnoreCase)) || propVal!.Equals(vehiclePropVal);
+        return (propVal is string _propValString && _propValString.Equals(vehiclePropVal!.ToString(), StringComparison.OrdinalIgnoreCase)) || !propVal!.Equals(vehiclePropVal);
     }
 }
