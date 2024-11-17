@@ -19,11 +19,19 @@ public class VehicleService : IVehicleService
 
     public List<Vehicle> GetVehiclesByMarque(string marque)
     {
+        if (string.IsNullOrWhiteSpace(marque))
+        {
+            throw new ArgumentException("Marque cannot be null or empty");
+        }
         return _vehiclesRepository.GetVehiclesByMarque(marque);
     }
 
     public List<Vehicle> GetVehiclesByModel(string model)
     {
+        if (string.IsNullOrWhiteSpace(model))
+        {
+            throw new ArgumentException("Model cannot be null or empty");
+        }
         return _vehiclesRepository.GetVehiclesByModel(model);
     }
 }
