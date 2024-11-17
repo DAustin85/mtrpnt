@@ -26,4 +26,10 @@ public class VehiclesRepository : IVehiclesRepository
         return _vehicles.Where(vehicle => 
             marque.Equals(vehicle.Make, StringComparison.OrdinalIgnoreCase)).ToList();
     }
+
+    public List<Vehicle> GetVehiclesByModel(string model)
+    {
+        return _vehicles.Where(vehicle =>
+            model.Equals(vehicle.Model, StringComparison.OrdinalIgnoreCase)).ToList();
+    }
 }
