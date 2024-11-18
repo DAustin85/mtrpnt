@@ -9,12 +9,10 @@ public class VehicleService : IVehicleService
 {
     private readonly IVehiclesRepository _vehiclesRepository;
     private readonly ILogger<VehicleService> _logger;
-    private readonly IVehicleValidationService _vehicleValidationService;
-    public VehicleService(IVehiclesRepository vehiclesRepository, ILogger<VehicleService> logger, IVehicleValidationService vehicleValidationService)
+    public VehicleService(IVehiclesRepository vehiclesRepository, ILogger<VehicleService> logger)
     {
         _vehiclesRepository = vehiclesRepository;
         _logger = logger;
-        _vehicleValidationService = vehicleValidationService;
     }
     public List<Vehicle> GetAllVehicles()
     {
@@ -36,18 +34,20 @@ public class VehicleService : IVehicleService
         return _vehiclesRepository.SearchVehicles(vehicle);
     }
 
-    public ValidationResult AddVehicle(VehicleDto vehicleRequest)
+    public List<ValidationResult> AddVehicle(VehicleDto vehicleRequest)
     {
-        var validationResult = _vehicleValidationService.ValidateVehicle(vehicleRequest);
+        var validationContext = new ValidationContext(vehicleRequest, null, null);
+        var validationResults = new List<ValidationResult>();
 
-        if (validationResult != ValidationResult.Success)
+        var isValid = Validator.TryValidateObject(vehicleRequest, validationContext, validationResults, true);
+
+        if (!isValid)
         {
-            return validationResult;
+            return validationResults;
         }
 
-        var vehicle = vehicleRequest.ToVehicleDomainModel();
-        _vehiclesRepository.AddVehicle(vehicle);
+        _vehiclesRepository.AddVehicle(vehicleRequest.ToVehicleDomainModel());
 
-        return validationResult;
+        return validationResults;
     }
 }

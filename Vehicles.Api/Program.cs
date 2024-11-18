@@ -14,7 +14,6 @@ public class Program
         builder.Services.AddSwaggerGen();
         builder.Services.AddSingleton<IVehiclesRepository, VehiclesRepository>();
         builder.Services.AddSingleton<IVehicleService, VehicleService>();
-        builder.Services.AddScoped<IVehicleValidationService, VehicleValidationService>();
 
         var app = builder.Build();
         app.UseSwagger();

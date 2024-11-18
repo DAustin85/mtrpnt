@@ -68,14 +68,14 @@ public class VehiclesController : ControllerBase
 
     [HttpPut]
     [Route("Add")]
-    [ProducesResponseType(typeof(ValidationResult), 200)]
-    [ProducesResponseType(typeof(ValidationResult), 400)]
+    [ProducesResponseType(typeof(List<ValidationResult>), 200)]
+    [ProducesResponseType(typeof(List<ValidationResult>), 400)]
     public IActionResult AddVehicle([FromBody] VehicleDto vehicleRequest)
     {
-        var result = _vehicleService.AddVehicle(vehicleRequest);
-        return result ==  ValidationResult.Success
-            ? Ok(result)
-            : BadRequest(result);
+        var results = _vehicleService.AddVehicle(vehicleRequest);
+        return !results.Any()
+            ? Ok(results)
+            : BadRequest(results);
 
     }
 }

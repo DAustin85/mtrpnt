@@ -37,7 +37,7 @@ public class VehicleControllerTests : WebApplicationFactory<Program>
     [Test]
     public async Task GetVehiclesByMarque_WhenNoResults_ReturnsNoContentResponse()
     {
-        var response = await _client.GetAsync("/vehicles/marque/Powell Motors");
+        var response = await _client.GetAsync("/vehicles/marque/NotARealMarque");
 
         response.EnsureSuccessStatusCode();
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NoContent));
@@ -76,7 +76,7 @@ public class VehicleControllerTests : WebApplicationFactory<Program>
     [Test]
     public async Task SearchVehicles_WhenNoResults_ReturnsNoContentResponse()
     {
-        var searchrequest = new VehicleSearchDto { Make = "Powell Motors", Model = "The Homer" };
+        var searchrequest = new VehicleSearchDto { Make = "NotARealMarque", Model = "The Homer" };
         var json = new StringContent(JsonSerializer.Serialize(searchrequest), Encoding.UTF8, "application/json");
 
         var response = await _client.PostAsync("/vehicles/Search", json);
@@ -86,7 +86,7 @@ public class VehicleControllerTests : WebApplicationFactory<Program>
     }
 
     [Test]
-    public async Task AddVehicle_WhenSuccessful_ReturnsNoContentResponse()
+    public async Task AddVehicle_WhenSuccessful_ReturnsOKResponse()
     {
         var putRequest = new VehicleDto {
             Price = 10000,
@@ -106,7 +106,7 @@ public class VehicleControllerTests : WebApplicationFactory<Program>
         var response = await _client.PutAsync("/Vehicles/Add", json);
 
         response.EnsureSuccessStatusCode();
-        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NoContent));
+        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
     }
 
     [Test]

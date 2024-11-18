@@ -9,5 +9,5 @@ public interface IVehicleService
     List<Vehicle> GetVehiclesByMarque(string marque);
     List<Vehicle> GetVehiclesByModel(string model);
     List<Vehicle> SearchVehicles(VehicleSearchDto searchVehicle);
-    ValidationResult AddVehicle(VehicleDto vehicle);
+    List<ValidationResult> AddVehicle(VehicleDto vehicle);
 }
