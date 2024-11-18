@@ -5,5 +5,5 @@ namespace Vehicles.Api.Interfaces;
 
 public interface IVehicleValidationService
 {
-    public ValidationResult ValidateVehicle(VehicleDto vehicleDto);
+    ValidationResult ValidateVehicle(VehicleDto vehicleDto);
 }

@@ -4,9 +4,9 @@ namespace Vehicles.Api.Interfaces;
 
 public interface IVehiclesRepository
 {
-    public List<Vehicle> GetAll();
-    public List<Vehicle> GetVehiclesByMarque(string marque);
-    public List<Vehicle> GetVehiclesByModel(string model);
-    public List<Vehicle> SearchVehicles(VehicleSearchDto vehicle);
-    public void AddVehicle(Vehicle vehicle);
+    List<Vehicle> GetAll();
+    List<Vehicle> GetVehiclesByMarque(string marque);
+    List<Vehicle> GetVehiclesByModel(string model);
+    List<Vehicle> SearchVehicles(VehicleSearchDto vehicle);
+    void AddVehicle(Vehicle vehicle);
 }
