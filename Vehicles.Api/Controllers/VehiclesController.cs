@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using Vehicles.Api.Interfaces;
@@ -21,6 +20,8 @@ public class VehiclesController : ControllerBase
 
     [HttpGet]
     [Route("All")]
+    [ProducesResponseType(typeof(List<Vehicle>), 200)]
+    [ProducesResponseType(204)]
     public IActionResult GetAllVehicles()
     {
         var allVehicles = _vehicleService.GetAllVehicles();
@@ -31,6 +32,8 @@ public class VehiclesController : ControllerBase
 
     [HttpGet]
     [Route("Marque/{marque}")]
+    [ProducesResponseType(typeof(List<Vehicle>), 200)]
+    [ProducesResponseType(204)]
     public IActionResult GetVehiclesByMarque(string marque)
     {
         var results = _vehicleService.GetVehiclesByMarque(marque);
@@ -41,6 +44,8 @@ public class VehiclesController : ControllerBase
 
     [HttpGet]
     [Route("Model/{model}")]
+    [ProducesResponseType(typeof(List<Vehicle>), 200)]
+    [ProducesResponseType(204)]
     public IActionResult GetVehiclesByModel(string model)
     {
         var results = _vehicleService.GetVehiclesByModel(model);
@@ -51,6 +56,8 @@ public class VehiclesController : ControllerBase
 
     [HttpGet]
     [Route("Search")]
+    [ProducesResponseType(typeof(List<Vehicle>), 200)]
+    [ProducesResponseType(204)]
     public IActionResult GetVehiclesByModel([FromBody] VehicleSearchDto searchVehicle)
     {
         var results = _vehicleService.SearchVehicles(searchVehicle);
@@ -61,6 +68,8 @@ public class VehiclesController : ControllerBase
 
     [HttpPut]
     [Route("AddVehicle")]
+    [ProducesResponseType(typeof(ValidationResult), 200)]
+    [ProducesResponseType(typeof(ValidationResult), 400)]
     public IActionResult AddVehicle([FromBody] VehicleDto vehicleRequest)
     {
         var result = _vehicleService.AddVehicle(vehicleRequest);
