@@ -45,7 +45,7 @@ public class VehicleService : IVehicleService
             return validationResult;
         }
 
-        var vehicle = VehicleMapperHelper.MapFromDto(vehicleRequest);
+        var vehicle = vehicleRequest.ToVehicleDomainModel();
         _vehiclesRepository.AddVehicle(vehicle);
 
         return validationResult;

@@ -2,9 +2,9 @@
 
 namespace Vehicles.Api.Extensions;
 
-public static class VehicleMapperHelper
+public static class VehicleMapperExtensions
 {
-    public static Vehicle MapFromDto(VehicleDto vehicleDto)
+    public static Vehicle ToVehicleDomainModel(this VehicleDto vehicleDto)
     {
         return new Vehicle
         {
