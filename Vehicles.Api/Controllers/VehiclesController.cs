@@ -54,7 +54,7 @@ public class VehiclesController : ControllerBase
             : NoContent();
     }
 
-    [HttpGet]
+    [HttpPost]
     [Route("Search")]
     [ProducesResponseType(typeof(List<Vehicle>), 200)]
     [ProducesResponseType(204)]
