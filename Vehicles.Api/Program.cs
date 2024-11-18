@@ -12,8 +12,8 @@ public class Program
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
-        builder.Services.AddScoped<IVehiclesRepository, VehiclesRepository>();
-        builder.Services.AddScoped<IVehicleService, VehicleService>();
+        builder.Services.AddSingleton<IVehiclesRepository, VehiclesRepository>();
+        builder.Services.AddSingleton<IVehicleService, VehicleService>();
         builder.Services.AddScoped<IVehicleValidationService, VehicleValidationService>();
 
         var app = builder.Build();
