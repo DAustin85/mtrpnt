@@ -9,7 +9,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IVehiclesRepository, VehiclesRepository>();
 builder.Services.AddScoped<IVehicleService, VehicleService>();
 builder.Services.AddScoped<IVehicleValidationService, VehicleValidationService>();
-builder.Services.AddScoped<IVehicleMapperService, VehicleMapperService>();
 
 var app = builder.Build();
 app.UseSwagger();

@@ -13,7 +13,6 @@ public class GivenIWantToGetAListOfVehicles
     private VehicleService _vehicleService;
     private Mock<IVehiclesRepository> _vehiclesRepositoryMock;
     private Mock<ILogger<VehicleService>> _loggerMock;
-    private Mock<IVehicleMapperService> _vehicleMapperServiceMock;
     private Mock<IVehicleValidationService> _vehicleValidationServiceMock;
     private List<Vehicle> _allVehicles;
     private Vehicle _toyota = new Vehicle { Make = "Toyota", Model = "Corolla" };
@@ -56,7 +55,6 @@ public class GivenIWantToGetAListOfVehicles
             .Setup(x => x.SearchVehicles(It.Is<VehicleSearchDto>(v => v.Make == _toyota.Make && v.Model == _toyota.Model)))
             .Returns(_allVehicles.Where(x => x.Model == _searchVehicle.Model && x.Make == _searchVehicle.Make).ToList());
         _loggerMock = new Mock<ILogger<VehicleService>>();
-        _vehicleMapperServiceMock = new Mock<IVehicleMapperService>();
         _vehicleValidationServiceMock = new Mock<IVehicleValidationService>();
         _vehicleValidationServiceMock.Setup(x => x.ValidateVehicle(It.IsAny<VehicleDto>())).Returns(failedValidationResult);
         _vehicleValidationServiceMock
@@ -75,7 +73,7 @@ public class GivenIWantToGetAListOfVehicles
                 v.Mileage > 0
                 )))
             .Returns(ValidationResult.Success!);
-        _vehicleService = new VehicleService(_vehiclesRepositoryMock.Object, _loggerMock.Object, _vehicleValidationServiceMock.Object, _vehicleMapperServiceMock.Object);
+        _vehicleService = new VehicleService(_vehiclesRepositoryMock.Object, _loggerMock.Object, _vehicleValidationServiceMock.Object);
     }
 
     [Test]

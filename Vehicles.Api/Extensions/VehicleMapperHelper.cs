@@ -1,11 +1,10 @@
-﻿using Vehicles.Api.Interfaces;
-using Vehicles.Api.Models;
+﻿using Vehicles.Api.Models;
 
-namespace Vehicles.Api.Services;
+namespace Vehicles.Api.Extensions;
 
-public class VehicleMapperService : IVehicleMapperService
+public static class VehicleMapperHelper
 {
-    public Vehicle MapToVehicle(VehicleDto vehicleDto)
+    public static Vehicle MapFromDto(VehicleDto vehicleDto)
     {
         return new Vehicle
         {
