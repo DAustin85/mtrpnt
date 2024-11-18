@@ -67,7 +67,7 @@ public class VehiclesController : ControllerBase
     }
 
     [HttpPut]
-    [Route("AddVehicle")]
+    [Route("Add")]
     [ProducesResponseType(typeof(ValidationResult), 200)]
     [ProducesResponseType(typeof(ValidationResult), 400)]
     public IActionResult AddVehicle([FromBody] VehicleDto vehicleRequest)
