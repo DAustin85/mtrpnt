@@ -6,7 +6,7 @@ namespace Vehicles.Api.Repositories;
 
 public class VehiclesRepository : IVehiclesRepository
 {
-    List<Vehicle> _vehicles;
+    private readonly List<Vehicle> _vehicles;
     public VehiclesRepository()
     {
         using (StreamReader r = new StreamReader("Repositories/vehicles.json"))
