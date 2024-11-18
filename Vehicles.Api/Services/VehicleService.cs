@@ -40,12 +40,13 @@ public class VehicleService : IVehicleService
     {
         var validationResult = _vehicleValidationService.ValidateVehicle(vehicleRequest);
 
-        if (validationResult == ValidationResult.Success)
+        if (validationResult != ValidationResult.Success)
         {
-            var vehicle = VehicleMapperHelper.MapFromDto(vehicleRequest);
-
-            _vehiclesRepository.AddVehicle(vehicle);
+            return validationResult;
         }
+
+        var vehicle = VehicleMapperHelper.MapFromDto(vehicleRequest);
+        _vehiclesRepository.AddVehicle(vehicle);
 
         return validationResult;
     }
