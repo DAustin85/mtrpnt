@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using Vehicles.Api.Interfaces;
@@ -20,36 +21,52 @@ public class VehiclesController : ControllerBase
 
     [HttpGet]
     [Route("All")]
-    public List<Vehicle> GetAllVehicles()
+    public IActionResult GetAllVehicles()
     {
-        return _vehicleService.GetAllVehicles();
+        var allVehicles = _vehicleService.GetAllVehicles();
+        return allVehicles.Any()
+            ? Ok(allVehicles)
+            : NoContent();
     }
 
     [HttpGet]
     [Route("Marque/{marque}")]
-    public List<Vehicle> GetVehiclesByMarque(string marque)
+    public IActionResult GetVehiclesByMarque(string marque)
     {
-        return _vehicleService.GetVehiclesByMarque(marque);
+        var results = _vehicleService.GetVehiclesByMarque(marque);
+        return results.Any()
+            ? Ok(results)
+            : NoContent();
     }
 
     [HttpGet]
     [Route("Model/{model}")]
-    public List<Vehicle> GetVehiclesByModel(string model)
+    public IActionResult GetVehiclesByModel(string model)
     {
-        return _vehicleService.GetVehiclesByModel(model);
+        var results = _vehicleService.GetVehiclesByModel(model);
+        return results.Any()
+            ? Ok(results)
+            : NoContent();
     }
 
     [HttpGet]
     [Route("Search")]
-    public List<Vehicle> GetVehiclesByModel([FromBody] VehicleSearchDto searchVehicle)
+    public IActionResult GetVehiclesByModel([FromBody] VehicleSearchDto searchVehicle)
     {
-        return _vehicleService.SearchVehicles(searchVehicle);
+        var results = _vehicleService.SearchVehicles(searchVehicle);
+        return results.Any()
+            ? Ok(results)
+            : NoContent();
     }
 
     [HttpPut]
     [Route("AddVehicle")]
-    public ValidationResult AddVehicle([FromBody] VehicleDto vehicleRequest)
+    public IActionResult AddVehicle([FromBody] VehicleDto vehicleRequest)
     {
-        return _vehicleService.AddVehicle(vehicleRequest);
+        var result = _vehicleService.AddVehicle(vehicleRequest);
+        return result ==  ValidationResult.Success
+            ? Ok(result)
+            : BadRequest(result);
+
     }
 }
