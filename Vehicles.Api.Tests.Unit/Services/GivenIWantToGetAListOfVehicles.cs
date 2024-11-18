@@ -92,9 +92,9 @@ public class GivenIWantToGetAListOfVehicles
     [Test]
     public void AddVehicle_WhenCalledWithAnInvalidModel_ThenReturnsValidationError()
     {
-        var result = _vehicleService.AddVehicle(new VehicleDto());
+        var results = _vehicleService.AddVehicle(new VehicleDto());
 
-        //Assert.That(result.ErrorMessage, Is.EqualTo("Failed validation"));
+        Assert.That(results.Select(res => res.ErrorMessage).Any(), Is.True);
     }
 
     [Test]
