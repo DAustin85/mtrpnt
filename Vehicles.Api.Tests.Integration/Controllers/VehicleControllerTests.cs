@@ -6,14 +6,14 @@ using Vehicles.Api.Models;
 
 namespace Vehicles.Api.Tests.Integration.Controllers;
 
-public class VehicleControllerTests
+public class VehicleControllerTests : WebApplicationFactory<Program>
 {
     private HttpClient _client;
 
     [SetUp]
     public void Setup()
     {
-        _client = new WebApplicationFactory<Program>().CreateClient();
+        _client = CreateClient();
     }
 
     [Test]
